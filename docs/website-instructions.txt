@@ -1,0 +1,67 @@
+
+OPERATIONS DAILY – MASTER PROJECT SPECIFICATIONS
+
+1. CORE IDENTITY & VISUAL DESIGN
+
+  - Project Name: Operations Daily
+  - Theme: High-Contrast Retro Green / Cyberpunk.
+  - Color Palette: Primary Neon (#4ade80), Dark Background (#000000), Grid Lines
+    (#14532d).
+  - Font: Monospace / Courier New.
+  - Global Layout:
+      - Every page content must be perfectly centered horizontally and
+        vertically.
+      - Background must feature the bg-grid.png with a 3D perspective transform.
+      - Header: The logo-main.png must be at the top and act as a functional
+        Link to the home page (/).
+
+2. NAVIGATION FLOW (AS PER FLOWCHART)
+
+  - Home Page (/): Display 4 horizontal icons (icon-solver.png,
+    icon-challenge.png, icon-history.png, icon-settings.png).
+  - Solver Hub (/solver): Display 2 horizontal icons (icon-lpsolver.png,
+    icon-ipsolver.png).
+  - LP Solver (/solver/lp): The main Simplex input form.
+  - History (/history): Dual view: Solver History list and Challenge History
+    calendar.
+  - Settings (/settings): Profile, Theme toggle, and Review button.
+
+3. LP SOLVER FUNCTIONAL LOGIC
+
+  - Variable Control: Use + and - buttons to increment/decrement variables
+    (X_1, X_2...). The UI must automatically add/remove input boxes for the
+    Objective Function and all Constraint rows based on this number.
+  - Constraint Matrix:
+      - Allow users to add an unlimited number of constraint rows.
+      - Each row must have a delete (trash can) button to remove it.
+      - Rows must include inputs for coefficients, a dropdown for relation (≤,
+        ≥, =), and a RHS value.
+  - Execution: The "RUN ANALYSIS" button should trigger the Simplex Engine and
+    save the result to localStorage.
+
+4. HISTORY & CHALLENGE CALENDAR LOGIC
+
+  - Solver History: Fetch and display a list of previous calculations from
+    localStorage. Clicking an entry should reload that specific model.
+  - Challenge History:
+      - Implement an interactive calendar.
+      - Include controls to change the Month and Year.
+      - Highlight dates: Green glow for "Solved" and Dimmed for "Missed" based
+        on records.
+      - Clicking a date should retrieve and display the model assigned to that
+        specific date.
+
+5. SETTINGS & ASSETS
+
+  - Theme: Default is Dark Mode. Light Mode clicking triggers a "COMING SOON"
+    overlay.
+  - Review: Clicking "Review" triggers a window/modal displaying the Feedback QR
+    code (icon-feedback.png).
+  - Assets Path: All interface icons are stored in src/assets/icons/.
+
+6. TECHNICAL DIRECTORY STRUCTURE
+
+  - src/assets/styles/global.css: CSS centering and grid brightness.
+  - src/components/layout/Window.jsx: Wrapper for all icons.
+  - src/pages/: All view components.
+  - src/services/simplexEngine.js: Simplex math logic.
