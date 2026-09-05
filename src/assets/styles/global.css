@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  background-color: black;
+  color: #4ade80;
+  font-family: 'Courier New', Courier, monospace;
+  
+  /* Using your uploaded bg-grid.png */
+  background-image: url('../bg-grid.png');
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-attachment: fixed;
+}
+
+/* Scrollbar styling to match the green theme */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { 
+  background: #052e16; 
+  border: 1px solid #4ade80; 
+  border-radius: 4px;
+}
