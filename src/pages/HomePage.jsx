@@ -18,17 +18,16 @@ const HomePage = () => {
   ];
 
   return (
-    /* This container centers everything */
     <div className="flex justify-center w-full mt-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 w-full max-w-6xl px-10">
+      {/* We use icon-grid to ensure icons sit in a row */}
+      <div className="icon-grid px-10">
         {menuItems.map((item, index) => (
-          <div key={index} className="flex justify-center">
-            <Window 
-              iconSrc={item.src} 
-              altText={item.alt} 
-              onClick={() => navigate(item.path)} 
-            />
-          </div>
+          <Window 
+            key={index}
+            iconSrc={item.src}
+            altText={item.alt}
+            onClick={() => navigate(item.path)}
+          />
         ))}
       </div>
     </div>
