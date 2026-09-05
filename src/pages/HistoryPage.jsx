@@ -1,18 +1,43 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import Window from '../components/layout/Window';
+import Navbar from '../components/layout/Navbar';
+import RecentSolvesList from '../components/history/RecentSolvesList';
+import ChallengeCalendar from '../components/history/ChallengeCalendar';
+
+import iconSolverH from '../assets/icons/icon-solverh.png';
+import iconChallengeH from '../assets/icons/icon-challengeh.png';
 
 const HistoryPage = () => {
-  const navigate = useNavigate();
+  const [selectedView, setSelectedView] = useState(null); // 'solvers' or 'challenges'
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[40vh] text-center">
-      <h2 className="text-4xl font-bold mb-4 tracking-[0.3em] text-retro-green uppercase">Solver History</h2>
-      <p className="text-xl mb-10 opacity-50 uppercase tracking-widest">Logs Encrypted: Decryption Key Not Found</p>
-      <button 
-        onClick={() => navigate('/')}
-        className="text-retro-green border-2 border-retro-green px-6 py-2 hover:bg-retro-green hover:text-black transition-all font-bold tracking-widest uppercase"
-      >
-        &lt; RETURN TO MAIN SYSTEM
-      </button>
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Navbar
+        backTo={selectedView ? () => setSelectedView(null) : '/'}
+        label={selectedView ? 'RETURN TO HISTORY SELECTION' : 'RETURN TO MAIN SYSTEM'}
+      />
+
+      {!selectedView ? (
+        /* Page 6: History Selection */
+        <div className="solver-grid">
+          <Window
+            iconSrc={iconSolverH}
+            onClick={() => setSelectedView('solvers')}
+            altText="Solver History"
+          />
+          <Window
+            iconSrc={iconChallengeH}
+            onClick={() => setSelectedView('challenges')}
+            altText="Challenge History"
+          />
+        </div>
+      ) : selectedView === 'solvers' ? (
+        /* Page 7: Solver History */
+        <RecentSolvesList />
+      ) : (
+        /* Page 8: Challenge History */
+        <ChallengeCalendar />
+      )}
     </div>
   );
 };

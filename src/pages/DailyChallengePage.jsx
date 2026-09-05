@@ -1,18 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Window from '../components/layout/Window';
+import Navbar from '../components/layout/Navbar';
+import DailyModelDisplay from '../components/challenge/DailyModelDisplay';
+import SubmissionForm from '../components/challenge/SubmissionForm';
+import CountdownTimer from '../components/challenge/CountdownTimer';
+
+import iconDailyLP from '../assets/icons/icon-dailylp.png';
+import iconDailyIP from '../assets/icons/icon-dailyip.png';
+import { DAILY_LP_MODEL, DAILY_IP_MODEL } from '../services/api';
 
 const DailyChallengePage = () => {
   const navigate = useNavigate();
+  const [selectedChallenge, setSelectedChallenge] = useState(null); // 'LP' or 'IP'
+
+  const activeModel = selectedChallenge === 'LP' ? DAILY_LP_MODEL : selectedChallenge === 'IP' ? DAILY_IP_MODEL : null;
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[40vh] text-center">
-      <h2 className="text-4xl font-bold mb-4 tracking-[0.3em] text-retro-green uppercase">Daily Challenge</h2>
-      <p className="text-xl mb-10 opacity-50 uppercase tracking-widest">Satellite Connection Lost... Retrying...</p>
-      <button 
-        onClick={() => navigate('/')}
-        className="text-retro-green border-2 border-retro-green px-6 py-2 hover:bg-retro-green hover:text-black transition-all font-bold tracking-widest uppercase"
-      >
-        &lt; RETURN TO MAIN SYSTEM
-      </button>
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Navbar
+        backTo={selectedChallenge ? () => setSelectedChallenge(null) : '/'}
+        label={selectedChallenge ? 'RETURN TO CHALLENGE SELECTION' : 'RETURN TO MAIN SYSTEM'}
+      />
+
+      {!selectedChallenge ? (
+        /* Page 5: Daily Challenge Selection */
+        <div className="solver-grid">
+          <Window
+            iconSrc={iconDailyLP}
+            onClick={() => setSelectedChallenge('LP')}
+            altText="Daily LP Challenge"
+          />
+          <Window
+            iconSrc={iconDailyIP}
+            onClick={() => setSelectedChallenge('IP')}
+            altText="Daily IP Challenge"
+          />
+        </div>
+      ) : (
+        /* Pages 9 & 10: Daily Model Challenge View */
+        <div className="retro-window" style={{ maxWidth: '920px' }}>
+          <div className="retro-window-header" style={{ justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div className="window-dots">
+                <div className="window-dot" />
+                <div className="window-dot" />
+                <div className="window-dot" />
+              </div>
+              <div className="window-title">{activeModel.title}</div>
+            </div>
+
+            <CountdownTimer />
+          </div>
+
+          <div
+            className="retro-window-body"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: '40px',
+              padding: '30px'
+            }}
+          >
+            <DailyModelDisplay model={activeModel} />
+            <SubmissionForm
+              numVars={activeModel.numVars}
+              onSubmitSolution={(data) => {
+                console.log('Submitted solution:', data);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
